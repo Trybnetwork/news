@@ -57,7 +57,7 @@
       .topbar {
         background: var(--surface);
         border-bottom: 1px solid var(--line);
-        padding: 14px 16px 12px;
+        padding: calc(14px + env(safe-area-inset-top, 0px)) 16px 12px;
       }
       .topbar-inner {
         max-width: 760px;
@@ -247,7 +247,7 @@
         z-index: 20;
         background: var(--bg);
         margin: 10px -16px 0;
-        padding: 10px 16px 9px;
+        padding: calc(10px + env(safe-area-inset-top, 0px)) 16px 9px;
         border-bottom: 1px solid var(--line);
       }
       .pills-inner {
@@ -516,7 +516,7 @@
       .article-inner {
         max-width: 760px;
         margin: 0 auto;
-        padding: 14px 16px 40px;
+        padding: calc(14px + env(safe-area-inset-top, 0px)) 16px 40px;
       }
       .back-btn {
         appearance: none;
