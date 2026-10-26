@@ -1147,16 +1147,29 @@
 
     <script>
       /* Auto-translate to the visitor's phone/browser language, the same way the
-         TrybNetwork app does: detect the language, and if it isn't English, hand
-         the page to Google Translate with its banner and gadget kept hidden.
-         English visitors never load the translator at all. */
+         TrybNetwork app does: detect the language, and if it's one of the
+         supported languages and isn't English, hand the page to Google
+         Translate with its banner and gadget kept hidden. English visitors
+         never load the translator at all.
+         The supported set is the app's language list plus 20 languages added
+         in Oct 2026 — Albanian (sq) and Pashto (ps) first among them, so
+         visitors from Albania and Afghanistan land on a page they can read. */
       (function () {
+        var SUPPORTED = [
+          "am", "ar", "bn", "de", "es", "fa", "fr", "ha", "hi", "id", "ig", "it",
+          "ja", "ko", "mr", "ms", "nl", "pl", "pt", "ru", "sw", "ta", "te", "th",
+          "tl", "tr", "uk", "ur", "vi", "yo", "zh-CN", "zh-TW",
+          /* Added Oct 2026 — 20 more: */
+          "sq", "ps", "az", "bg", "bs", "cs", "hr", "hu", "hy", "ka", "kk", "km",
+          "mk", "ne", "ro", "si", "sk", "sl", "sr", "uz"
+        ];
         var raw = (navigator.language || "en").toLowerCase();
         var lang = raw.split("-")[0];
         if (raw.indexOf("zh") === 0) {
           lang = (raw.indexOf("tw") >= 0 || raw.indexOf("hk") >= 0 || raw.indexOf("hant") >= 0) ? "zh-TW" : "zh-CN";
         }
         if (!lang || lang === "en") return;
+        if (SUPPORTED.indexOf(lang) === -1) return;
         var val = "/en/" + lang;
         document.cookie = "googtrans=" + val + "; path=/";
         if (window.location.hostname) {
