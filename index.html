@@ -594,7 +594,7 @@
       <div class="topbar-inner">
         <div>
           <div class="wordmark">Tryb<span class="news">News</span></div>
-          <div class="dateline"><strong>Saturday, 24 October 2026</strong> · Weekend edition — reflecting Friday's close, ahead of the FOMC on Oct 27–28</div>
+          <div class="dateline"><strong>Monday, 26 October 2026</strong> · Monday edition — central-bank week opens: FOMC meets Oct 27–28, PCE follows Oct 29</div>
         </div>
         <button class="search-btn" id="searchBtn" type="button" aria-label="Search stories" aria-expanded="false">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
@@ -627,7 +627,7 @@
 
       <section id="marketSection" aria-label="Watched instruments, reference quotes">
         <div class="mkt-grid" id="strip"></div>
-        <p class="strip-note">Reference quotes as of Fri 23 Oct close · Your broker's prices are final</p>
+        <p class="strip-note">Reference quotes as of Mon 26 Oct 2026 · Your broker's prices are final</p>
       </section>
 
       <div id="watchSlot"></div>
@@ -653,25 +653,41 @@
     </section>
 
     <script>
-      /* Reference quotes — Friday 23 Oct 2026 close (TradingView / exchange closes via public reports). */
+      /* Reference quotes — Monday 26 Oct 2026 (TradingView / exchange reference quotes). */
       var QUOTES = [
-        { sym: "XAUUSD", px: "4,007.90", chg: -1.28 },
-        { sym: "BTCUSD", px: "81,071",   chg: -0.30 },
-        { sym: "ETHUSD", px: "2,384",    chg: -0.10 },
-        { sym: "EURUSD", px: "1.1203",   chg: -0.12 },
-        { sym: "GBPUSD", px: "1.3378",   chg: -0.17 },
-        { sym: "USDJPY", px: "156.86",   chg:  0.07 },
-        { sym: "DXY",    px: "101.97",   chg:  0.17 },
-        { sym: "NAS100", px: "28,958",   chg:  0.00 },
-        { sym: "USOIL",  px: "103.27",   chg:  3.82 }
+        { sym: "XAUUSD", px: "4,009.87", chg:  0.40 },
+        { sym: "BTCUSD", px: "80,288",   chg: -0.03 },
+        { sym: "ETHUSD", px: "2,326.74", chg: -0.09 },
+        { sym: "EURUSD", px: "1.1219",   chg:  0.14 },
+        { sym: "GBPUSD", px: "1.3376",   chg:  0.02 },
+        { sym: "USDJPY", px: "157.09",   chg:  0.11 },
+        { sym: "DXY",    px: "101.65",   chg: -0.05 },
+        { sym: "NAS100", px: "28,952",   chg: -0.23 },
+        { sym: "USOIL",  px: "101.04",   chg: -2.16 }
       ];
 
       /* Stories gathered Fri 23 – Sat 24 Oct 2026. Summaries are original; bodies link back to the outlet. */
       var STORIES = [
         {
-          id: "watch-gold-4000",
+          id: "watch-fomc-week-opens",
           cat: "gold",
           watch: true,
+          title: "Super week opens: gold holds $4,000 into the FOMC",
+          summary: "Gold starts central-bank week on the $4,000 handle after its steepest weekly loss in over four months. The FOMC meets Tuesday–Wednesday, PCE follows Thursday — the statement matters more than a hold that is already priced.",
+          source: "Tryb Market Watch",
+          sourceUrl: null,
+          time: "Mon 26 Oct 2026",
+          body: [
+            "Gold starts the week on the $4,000 handle. Friday's close was $4,007.90, after a week that ended with front-month Comex gold down 4.05% at $3,991.10 — its largest one-week decline since early June and a second straight weekly loss.",
+            "The driver into the week is still oil, not gold — but Monday eased the fear. Brent settled Friday at $116.72 a barrel, its highest close since 29 April, then opened Monday lower near $115 and slipped toward $114.50 as Qatari mediation and easing US–Iran rhetoric took some heat out of the weekend's Houthi claims; WTI eased from $103.27 toward $101. No damage to Saudi oil sites had been confirmed by Monday morning. Softer oil revived gold: spot gold bounced about 0.4% back above $4,000 on Monday, with markets still pricing about three-quarters odds of a December Fed hike — a hard mix for a non-yielding metal, but less punishing than Friday's close.",
+            "The map from Friday's watch piece still frames the week. Above, $4,067 is the reclaim level that would say the pullback is done. Below, the $3,960–$3,940 pool is the zone sellers are most likely to hunt first. A sweep into that zone that gets bought is a very different signal from a daily close beneath it.",
+            "The calendar: the FOMC meets Tuesday–Wednesday, Oct 27–28, with a hold near-fully priced, so the statement and press conference matter more than the decision itself. The PCE inflation print follows on Oct 29, and the ECB and Bank of Japan also meet this week. Any hint that December's hike is locked in keeps pressure on gold; any softening opens the door to the $4,067 reclaim.",
+            "Read it here, trade it on TrybNetwork, talk about it in TrybChat. This piece is informational, not financial advice."
+          ]
+        },
+        {
+          id: "watch-gold-4000",
+          cat: "gold",
           title: "Gold at $4,000: the line that decides next week",
           summary: "Gold closed the week around $4,004 after chopping around the $4,000 handle. The $4,067 reclaim above and the $3,960–$3,940 pool below frame the FOMC week.",
           source: "Tryb Market Watch",
