@@ -578,9 +578,18 @@
         padding: 40px 0;
         font-size: 14px;
       }
+
+      /* ---------- Auto-translate chrome (Google) — kept invisible ---------- */
+      #google_translate_element { display: none !important; }
+      .goog-te-banner-frame.skiptranslate { display: none !important; }
+      .goog-te-gadget { display: none !important; }
+      body { top: 0 !important; }
+      #goog-gt-tt, .goog-tooltip { display: none !important; }
+      .goog-text-highlight { background: none !important; box-shadow: none !important; }
     </style>
   </head>
   <body>
+    <div id="google_translate_element" aria-hidden="true"></div>
     <header class="topbar">
       <div class="topbar-inner">
         <div>
@@ -1135,116 +1144,35 @@
       renderWatch();
       renderFeed();
     </script>
-  
-<!-- tn-visit-tracker (news) -->
-<script>
-/* TrybNetwork visitor tracker — logs one anonymous landing per site +
-   page per browser session; the server folds repeat landings from the
-   same IP + page into one record with a hit counter. IP, country and
-   device type. Fire-and-forget; never breaks or delays the page. */
-(function () {
-  try {
-    var SITE = "news";
-    try {
-      var skey = "tn_visit_" + SITE + "|" + (location.pathname || "/");
-      if (sessionStorage.getItem(skey)) return;
-      sessionStorage.setItem(skey, "1");
-    } catch (e) {}
-    var vid = null;
-    try {
-      vid = localStorage.getItem("tn_vid");
-      if (!vid) {
-        vid = (window.crypto && crypto.randomUUID)
-          ? crypto.randomUUID()
-          : "v" + Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
-        localStorage.setItem("tn_vid", vid);
-      }
-    } catch (e) {}
-    var ua = navigator.userAgent || "";
-    var isMobile = /iPhone|iPad|iPod|Android|Mobile/i.test(ua) ||
-      (navigator.maxTouchPoints > 1 && /Macintosh/.test(ua));
-    function deviceLabel(model) {
-      var b = /Edg\//.test(ua) ? "Edge"
-        : /OPR\/|Opera/.test(ua) ? "Opera"
-        : /SamsungBrowser/.test(ua) ? "Samsung Internet"
-        : /CriOS|Chrome\//.test(ua) ? "Chrome"
-        : /FxiOS|Firefox\//.test(ua) ? "Firefox"
-        : /Safari\//.test(ua) ? "Safari" : "Browser";
-      var d;
-      if (/iPhone/.test(ua)) d = "iPhone";
-      else if (/iPad/.test(ua)) d = "iPad";
-      else if (/Android/.test(ua)) {
-        d = "Android";
-        if (model) d = "Android (" + model + ")";
-        else {
-          var m = ua.match(/Android[^;]*;\s*([^)]+)\)/);
-          if (m && m[1] && !/^(K|Mobile|Tablet|wv)$/i.test(m[1].trim()))
-            d = "Android (" + m[1].trim() + ")";
-        }
-      }
-      else if (/Windows/.test(ua)) d = "Windows PC";
-      else if (/Macintosh|Mac OS X/.test(ua)) d = "Mac";
-      else if (/Linux/.test(ua)) d = "Linux";
-      else d = "Unknown device";
-      return d + " · " + b;
-    }
-    function geo() {
-      return fetch("https://ipwho.is/").then(function (r) { return r.json(); }).then(function (j) {
-        if (j && j.success !== false && (j.ip || j.country_code))
-          return { ip: j.ip || null, cc: j.country_code || null, cn: j.country || null };
-        throw new Error("ipwho");
-      }).catch(function () {
-        return fetch("https://api.country.is/").then(function (r) { return r.json(); }).then(function (j) {
-          return { ip: (j && j.ip) || null, cc: (j && j.country) || null, cn: null };
-        }).catch(function () { return { ip: null, cc: null, cn: null }; });
-      });
-    }
-    var modelP = Promise.resolve("");
-    try {
-      if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
-        modelP = Promise.race([
-          navigator.userAgentData.getHighEntropyValues(["model"])
-            .then(function (v) { return (v && v.model) || ""; })
-            .catch(function () { return ""; }),
-          new Promise(function (res) { setTimeout(function () { res(""); }, 700); })
-        ]);
-      }
-    } catch (e) {}
-    Promise.all([geo(), modelP]).then(function (res) {
-      var g = res[0];
-      var params = {
-        p_site: SITE,
-        p_path: location.pathname || "/",
-        p_ip: g.ip,
-        p_country_code: g.cc,
-        p_country_name: g.cn,
-        p_device: deviceLabel(res[1]),
-        p_is_mobile: !!isMobile,
-        p_visitor_id: vid,
-        p_ua: ua.slice(0, 400)
-      };
-      try {
-        if (typeof sb !== "undefined" && sb && sb.rpc) {
-          sb.rpc("tn_log_visit", params).then(function () {}, function () {});
-          return;
-        }
-      } catch (e) {}
-      try {
-        fetch("https://zvubytosshkxpbpvgcsw.supabase.co/rest/v1/rpc/tn_log_visit", {
-          method: "POST",
-          keepalive: true,
-          headers: {
-            "Content-Type": "application/json",
-            "apikey": "sb_publishable_c1sl1Mw4Y5EMWjkmYSzEow_m5Yowqk0",
-            "Authorization": "Bearer sb_publishable_c1sl1Mw4Y5EMWjkmYSzEow_m5Yowqk0"
-          },
-          body: JSON.stringify(params)
-        }).catch(function () {});
-      } catch (e) {}
-    }).catch(function () {});
-  } catch (e) {}
-})();
 
-</script>
-</body>
+    <script>
+      /* Auto-translate to the visitor's phone/browser language, the same way the
+         TrybNetwork app does: detect the language, and if it isn't English, hand
+         the page to Google Translate with its banner and gadget kept hidden.
+         English visitors never load the translator at all. */
+      (function () {
+        var raw = (navigator.language || "en").toLowerCase();
+        var lang = raw.split("-")[0];
+        if (raw.indexOf("zh") === 0) {
+          lang = (raw.indexOf("tw") >= 0 || raw.indexOf("hk") >= 0 || raw.indexOf("hant") >= 0) ? "zh-TW" : "zh-CN";
+        }
+        if (!lang || lang === "en") return;
+        var val = "/en/" + lang;
+        document.cookie = "googtrans=" + val + "; path=/";
+        if (window.location.hostname) {
+          document.cookie = "googtrans=" + val + "; path=/; domain=" + window.location.hostname;
+        }
+        window.googleTranslateElementInit = function () {
+          new google.translate.TranslateElement(
+            { pageLanguage: "en", autoDisplay: false },
+            "google_translate_element"
+          );
+        };
+        var s = document.createElement("script");
+        s.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+        s.async = true;
+        document.head.appendChild(s);
+      })();
+    </script>
+  </body>
 </html>
